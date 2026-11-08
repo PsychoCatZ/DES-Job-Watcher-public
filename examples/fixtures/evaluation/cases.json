@@ -1,0 +1,331 @@
+{
+  "dataset_version": 3,
+  "split": "development",
+  "labels_status": "synthetic_examples",
+  "warning": "Все тексты вымышленные. Известный development-набор, не независимый holdout. Требует явного синтетического режима и учебных профилей; профессиональные и коммуникационные проверки разделены.",
+  "cases": [
+    {
+      "id": "demo_chat",
+      "label": "Вымышленный учебный случай",
+      "profile_id": "support",
+      "readiness": "ready",
+      "prerequisites": [],
+      "text_file": "texts/demo_chat.txt",
+      "text_sha256": "85b6ce957fb4161512c9cae4b32a8bf16058132e02427f3ffb4c7a980867a917",
+      "checks": [
+        {
+          "path": "delivery.action",
+          "allowed": [
+            "show",
+            "review"
+          ]
+        },
+        {
+          "path": "analysis.conditions.communication.status",
+          "allowed": [
+            "confirmed"
+          ]
+        }
+      ],
+      "human_checks": [
+        "Проверить цитаты и основания; учебные ожидания не являются независимым эталоном."
+      ]
+    },
+    {
+      "id": "demo_voice",
+      "label": "Вымышленный учебный случай",
+      "profile_id": "support",
+      "readiness": "ready",
+      "prerequisites": [],
+      "text_file": "texts/demo_voice.txt",
+      "text_sha256": "6ddad9b1a00268da2b9217cbdd3f8c47894ef8113838f186e0af923a21c1c13c",
+      "checks": [
+        {
+          "path": "delivery.action",
+          "allowed": [
+            "exclude"
+          ]
+        },
+        {
+          "path": "analysis.conditions.communication.status",
+          "allowed": [
+            "conflict"
+          ]
+        }
+      ],
+      "human_checks": [
+        "Проверить цитаты и основания; учебные ожидания не являются независимым эталоном."
+      ]
+    },
+    {
+      "id": "demo_data",
+      "label": "Вымышленный учебный случай",
+      "profile_id": "ai_data",
+      "readiness": "ready",
+      "prerequisites": [],
+      "text_file": "texts/demo_data.txt",
+      "text_sha256": "cd8c070ff35a7cb5bf3185d2322a6b8c2f95ab4be719603ecf42bdde23524d49",
+      "checks": [
+        {
+          "path": "delivery.action",
+          "allowed": [
+            "show",
+            "review"
+          ]
+        }
+      ],
+      "human_checks": [
+        "Проверить цитаты и основания; учебные ожидания не являются независимым эталоном."
+      ]
+    },
+    {
+      "id": "demo_developer",
+      "label": "AI-интеграция с разрешёнными агентами — вымышленный пример",
+      "profile_id": "developer",
+      "readiness": "ready",
+      "prerequisites": [],
+      "source": {
+        "kind": "synthetic_vacancy"
+      },
+      "text_file": "texts/demo_developer.txt",
+      "text_sha256": "3aa3f5f12be297e49ae7c643b8a899e655e27dbd269e6330a16c4a7db0ef99b1",
+      "checks": [
+        {
+          "path": "analysis.main_work.fit",
+          "allowed": [
+            "match"
+          ]
+        },
+        {
+          "path": "analysis.conditions.ai_policy.status",
+          "allowed": [
+            "confirmed"
+          ]
+        },
+        {
+          "path": "analysis.conditions.communication.status",
+          "allowed": [
+            "unknown"
+          ]
+        },
+        {
+          "path": "decision",
+          "allowed": [
+            "suitable"
+          ]
+        },
+        {
+          "path": "delivery.action",
+          "allowed": [
+            "show"
+          ]
+        }
+      ],
+      "human_checks": [
+        "Не требовать программирования без AI или опыта архитектора, которых вакансия не требует.",
+        "Неизвестное общение не должно менять оценку."
+      ]
+    },
+    {
+      "id": "demo_other_profession",
+      "label": "Финансовая работа с Claude как инструментом — вымышленный пример",
+      "profile_id": "developer",
+      "readiness": "ready",
+      "prerequisites": [],
+      "source": {
+        "kind": "synthetic_vacancy"
+      },
+      "text_file": "texts/demo_other_profession.txt",
+      "text_sha256": "e36c74276b630666e79e73da234103efc17681fdc5ca6800311259ce2c6e5f00",
+      "checks": [
+        {
+          "path": "analysis.main_work.fit",
+          "allowed": [
+            "mismatch"
+          ]
+        },
+        {
+          "path": "analysis.main_work.mismatch_basis",
+          "allowed": [
+            "different_work"
+          ]
+        },
+        {
+          "path": "analysis.ai_role.kind",
+          "allowed": [
+            "auxiliary"
+          ]
+        },
+        {
+          "path": "decision",
+          "allowed": [
+            "unsuitable"
+          ]
+        },
+        {
+          "path": "delivery.action",
+          "allowed": [
+            "review"
+          ]
+        }
+      ],
+      "human_checks": [
+        "Основная профессия другая; одного Claude недостаточно для совпадения.",
+        "Review доступен пользователю; это не рекомендация для немедленной доставки и не скрытое исключение."
+      ]
+    },
+    {
+      "id": "demo_video",
+      "label": "Обязательные видеовстречи — вымышленный пример",
+      "profile_id": "support",
+      "readiness": "ready",
+      "prerequisites": [],
+      "source": {
+        "kind": "synthetic_vacancy"
+      },
+      "text_file": "texts/demo_video.txt",
+      "text_sha256": "031a0db04f155dda86ddd45227bd6a7843ed54b5636a2d368dd6b5074f097eb3",
+      "checks": [
+        {
+          "path": "analysis.conditions.communication.status",
+          "allowed": [
+            "conflict"
+          ]
+        },
+        {
+          "path": "decision",
+          "allowed": [
+            "unsuitable"
+          ]
+        },
+        {
+          "path": "delivery.action",
+          "allowed": [
+            "exclude"
+          ]
+        }
+      ],
+      "human_checks": [
+        "Прямое обязательное видео — препятствие по правилам пользователя."
+      ]
+    },
+    {
+      "id": "demo_office",
+      "label": "Обязательный офис — вымышленный пример",
+      "profile_id": "support",
+      "readiness": "ready",
+      "prerequisites": [],
+      "source": {
+        "kind": "synthetic_vacancy"
+      },
+      "text_file": "texts/demo_office.txt",
+      "text_sha256": "0eea66910edc4db5c4d2d779d6c38b4741114882815b45d9093965d94c5f207d",
+      "checks": [
+        {
+          "path": "analysis.conditions.remote.status",
+          "allowed": [
+            "conflict"
+          ]
+        },
+        {
+          "path": "decision",
+          "allowed": [
+            "unsuitable"
+          ]
+        },
+        {
+          "path": "delivery.action",
+          "allowed": [
+            "exclude"
+          ]
+        }
+      ],
+      "human_checks": [
+        "Удалённость нарушена явно, даже при текстовом общении и подходящем опыте."
+      ]
+    },
+    {
+      "id": "demo_audio_data",
+      "label": "Текстовые расшифровки как данные — вымышленный пример",
+      "profile_id": "ai_data",
+      "readiness": "ready",
+      "prerequisites": [],
+      "source": {
+        "kind": "synthetic_vacancy"
+      },
+      "text_file": "texts/demo_audio_data.txt",
+      "text_sha256": "619a12f30d21a5ce085a20fc36580f3e9df5d2a8783d52583a30564ce272f553",
+      "checks": [
+        {
+          "path": "analysis.main_work.fit",
+          "allowed": [
+            "match",
+            "partial"
+          ]
+        },
+        {
+          "path": "analysis.conditions.communication.status",
+          "allowed": [
+            "unknown",
+            "confirmed"
+          ]
+        },
+        {
+          "path": "decision",
+          "allowed": [
+            "suitable",
+            "clarify"
+          ]
+        },
+        {
+          "path": "delivery.action",
+          "allowed": [
+            "show"
+          ]
+        }
+      ],
+      "human_checks": [
+        "Слово аудио не доказывает обязанности слушать или говорить.",
+        "Не додумывать внутренние звонки.",
+        "Полное совпадение модальностей не требуется для проверки отсутствия голосового конфликта. Переносимость опыта обосновать операциями; специальные методы не выдумывать."
+      ]
+    },
+    {
+      "id": "demo_text_alternative",
+      "label": "Полноценная письменная альтернатива — вымышленный пример",
+      "profile_id": "support",
+      "readiness": "ready",
+      "prerequisites": [],
+      "source": {
+        "kind": "synthetic_vacancy"
+      },
+      "text_file": "texts/demo_text_alternative.txt",
+      "text_sha256": "c50c35157230e3c8985e1875f69b5468656bbca0f05798fdf8e575b3120c616c",
+      "checks": [
+        {
+          "path": "analysis.conditions.communication.status",
+          "allowed": [
+            "confirmed"
+          ]
+        },
+        {
+          "path": "delivery.action",
+          "allowed": [
+            "show"
+          ]
+        },
+        {
+          "path": "blocking_reasons",
+          "allowed": [
+            []
+          ]
+        }
+      ],
+      "human_checks": [
+        "Видео с полноценной письменной альтернативой не является обязательным препятствием.",
+        "Профессиональные вопросы анализировать отдельно; общая suitable не является целью проверки письменной альтернативы."
+      ]
+    }
+  ],
+  "revision": 3
+}

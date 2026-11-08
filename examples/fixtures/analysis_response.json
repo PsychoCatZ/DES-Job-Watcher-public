@@ -1,0 +1,72 @@
+{
+  "contract_version": 3,
+  "vacancy_id": "demo-42",
+  "profile_id": "support",
+  "profile_version": 1,
+  "rules_version": 3,
+  "main_work": {
+    "summary": "Письменная техническая поддержка пользователей.",
+    "fit": "match",
+    "quotes": [
+      "письменная поддержка пользователей и диагностика Windows"
+    ],
+    "profile_evidence_ids": [
+      "support_01"
+    ],
+    "reason": "Есть соответствующий опыт поддержки и Windows.",
+    "mismatch_basis": "not_applicable"
+  },
+  "ai_role": {
+    "kind": "auxiliary",
+    "quotes": [
+      "AI можно использовать для поиска решений"
+    ]
+  },
+  "requirements": [
+    {
+      "text": "Письменная поддержка и диагностика Windows",
+      "importance": "mandatory",
+      "status": "confirmed",
+      "quote": "Требуется письменная поддержка пользователей и диагностика Windows.",
+      "profile_evidence_ids": [
+        "support_01"
+      ],
+      "reason": "Сведения профиля подтверждают релевантный опыт."
+    }
+  ],
+  "conditions": {
+    "remote": {
+      "status": "confirmed",
+      "quotes": [
+        "Работа полностью удалённая"
+      ],
+      "reason": "Удалённость указана явно.",
+      "field_refs": []
+    },
+    "communication": {
+      "status": "unknown",
+      "quotes": [
+        "Клиентские обращения только в чатах",
+        "Внутренние встречи проходят ежедневно"
+      ],
+      "reason": "Канал внутренних встреч, найма и обучения не раскрыт.",
+      "field_refs": []
+    },
+    "work_from_russia": {
+      "status": "confirmed",
+      "quotes": [
+        "из любого региона России"
+      ],
+      "reason": "Россия прямо разрешена.",
+      "field_refs": []
+    },
+    "ai_policy": {
+      "status": "confirmed",
+      "quotes": [
+        "AI можно использовать для поиска решений"
+      ],
+      "reason": "AI явно разрешён для указанной задачи.",
+      "field_refs": []
+    }
+  }
+}

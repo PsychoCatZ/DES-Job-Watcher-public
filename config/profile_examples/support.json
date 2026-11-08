@@ -1,0 +1,165 @@
+{
+  "profile_id": "support",
+  "version": 2,
+  "label": "Письменная техническая поддержка — DEMO",
+  "source_resume": "Синтетический пример без реального PDF",
+  "evidence_note": "Все сведения вымышленные; использовать только для обучения.",
+  "target_tasks": [
+    "Письменная техническая поддержка"
+  ],
+  "working_method": "Учебные задачи с AI-инструментами.",
+  "evidence": [
+    {
+      "id": "support_01",
+      "period": "Учебный пример",
+      "context": "Вымышленные сведения",
+      "fact": "Учебная письменная поддержка пользователей, ответы на вопросы, подготовка понятных инструкций и FAQ; диагностика Windows/Linux."
+    },
+    {
+      "id": "support_02",
+      "period": "Учебный пример",
+      "context": "Вымышленные сведения",
+      "fact": "Учебная разметка изображений, видео и текстов по инструкциям, поиск ошибок и пропусков, контроль качества данных."
+    },
+    {
+      "id": "support_03",
+      "period": "Учебный пример",
+      "context": "Вымышленные сведения",
+      "fact": "Учебная работа с промптами и API."
+    },
+    {
+      "id": "support_04",
+      "period": "Учебный пример",
+      "context": "Вымышленные сведения",
+      "fact": "Учебная проверка ответов и логики."
+    },
+    {
+      "id": "support_05",
+      "period": "Учебный пример",
+      "context": "Вымышленные сведения",
+      "fact": "Учебная подготовка текстовых данных и инструкций."
+    },
+    {
+      "id": "support_06",
+      "period": "Учебный пример",
+      "context": "Вымышленные сведения",
+      "fact": "Учебный проект: автоматизация обработки JSON и CSV на Python, интеграция с LLM через API, составление и проверка промптов."
+    },
+    {
+      "id": "support_07",
+      "period": "Учебный пример",
+      "context": "Вымышленные сведения",
+      "fact": "Вымышленный учебный опыт: Git и GitHub."
+    },
+    {
+      "id": "support_08",
+      "period": "Учебный пример",
+      "context": "Вымышленные сведения",
+      "fact": "Учебное обслуживание баз данных 1С; конкретные SQL/NoSQL не подтверждены."
+    },
+    {
+      "id": "support_source_target",
+      "period": "Учебный пример",
+      "context": "Синтетический раздел; настоящего PDF нет",
+      "fact": "ВЫМЫШЛЕННЫЙ УЧЕБНЫЙ ПРОФИЛЬ. Письменная техническая поддержка",
+      "kind": "resume_section",
+      "source_pages": [
+        1
+      ]
+    },
+    {
+      "id": "support_source_experience",
+      "period": "Учебный пример",
+      "context": "Синтетический раздел; настоящего PDF нет",
+      "fact": "Вымышленная учебная компания. Администрирование рабочих станций и серверов (Windows, Linux); слияние и обслуживание баз 1С. Письменная поддержка пользователей в Help Desk, регулярные ответы в переписке и подготовка инструкций и FAQ. Разметка изображений, видео и текстов по инструкциям; поиск ошибок и пропусков, контроль качества данных. Учебный проект обработки JSON и CSV на Python и интеграции с LLM через API. Это пример структуры, не биография реального человека.",
+      "kind": "resume_section",
+      "source_pages": [
+        1
+      ]
+    },
+    {
+      "id": "support_source_education",
+      "period": "Учебный пример",
+      "context": "Синтетический раздел; настоящего PDF нет",
+      "fact": "Вымышленный кандидат: Среднее специальное образование. Учебное учреждение не указано.",
+      "kind": "resume_section",
+      "source_pages": [
+        1
+      ]
+    },
+    {
+      "id": "support_source_skills",
+      "period": "Учебный пример",
+      "context": "Синтетический раздел; настоящего PDF нет",
+      "fact": "Учебные навыки: Windows, Linux, Help Desk, Python, API, JSON, русский язык.",
+      "kind": "resume_section",
+      "source_pages": [
+        1
+      ]
+    },
+    {
+      "id": "support_source_about",
+      "period": "Учебный пример",
+      "context": "Синтетический раздел; настоящего PDF нет",
+      "fact": "ВЫМЫШЛЕННЫЙ ПРИМЕР: Python, JS/TS и API для учебной автоматизации. Git и GitHub. Speech-to-Text и клиент-серверные приложения в учебных проектах. Конкретные технологии должны быть подтверждены фактами своего резюме.",
+      "kind": "resume_section",
+      "source_pages": [
+        1
+      ]
+    }
+  ],
+  "education": {
+    "level": "secondary_vocational",
+    "label": "Среднее специальное",
+    "evidence_id": "support_source_education"
+  },
+  "boundaries": [
+    "Не выдавать учебные данные за сведения реального кандидата."
+  ],
+  "resume_audit": {
+    "method": "Синтетические разделы, не извлечение и не аудит реального PDF",
+    "sections": [
+      {
+        "section": "target",
+        "evidence_id": "support_source_target",
+        "pages": [
+          1
+        ],
+        "text_sha256": "08e974184e220bef5c95fe2ba27c50d51c376586ea73f62f830f3c1b60eb4442"
+      },
+      {
+        "section": "experience",
+        "evidence_id": "support_source_experience",
+        "pages": [
+          1
+        ],
+        "text_sha256": "f88107dc343e13f7840376db560c9f2b8ef94ae58fea5e79578b43e12192f888"
+      },
+      {
+        "section": "education",
+        "evidence_id": "support_source_education",
+        "pages": [
+          1
+        ],
+        "text_sha256": "22617ae5025d53acc020414c1166a9011a6e64cb6da01e802ae88515b25ddbca"
+      },
+      {
+        "section": "skills",
+        "evidence_id": "support_source_skills",
+        "pages": [
+          1
+        ],
+        "text_sha256": "e29c2309be2a5060f21fcf1ef1f6981570b0568b7dd1095cadfe475b9c655af9"
+      },
+      {
+        "section": "about",
+        "evidence_id": "support_source_about",
+        "pages": [
+          1
+        ],
+        "text_sha256": "d9b330542ae307e4cc11ce34456df33901c2b252bb98eb66f2b19efab0e66b11"
+      }
+    ]
+  },
+  "profile_kind": "synthetic"
+}

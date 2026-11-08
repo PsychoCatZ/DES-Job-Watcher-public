@@ -1,0 +1,31 @@
+[Unit]
+Description=DES Job Watcher Telegram controller
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=des-watcher
+Group=des-watcher
+WorkingDirectory=/opt/des-job-watcher
+LoadCredential=watcher:/etc/des-job-watcher/credentials.json
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/opt/des-job-watcher/.venv/bin/python -B -m examples.service_runtime
+Restart=on-failure
+RestartSec=30
+KillMode=control-group
+TimeoutStopSec=45
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/opt/des-job-watcher/data
+UMask=0077
+MemoryMax=512M
+CPUWeight=20
+IOWeight=20
+Nice=10
+
+[Install]
+WantedBy=multi-user.target

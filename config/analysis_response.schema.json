@@ -1,0 +1,354 @@
+{
+  "type": "object",
+  "properties": {
+    "contract_version": {
+      "type": "integer",
+      "const": 3
+    },
+    "vacancy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "profile_id": {
+      "type": "string",
+      "enum": [
+        "support",
+        "developer",
+        "ai_data"
+      ]
+    },
+    "profile_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "rules_version": {
+      "type": "integer",
+      "const": 3
+    },
+    "main_work": {
+      "type": "object",
+      "properties": {
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fit": {
+          "type": "string",
+          "enum": [
+            "match",
+            "partial",
+            "unknown",
+            "mismatch"
+          ]
+        },
+        "quotes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "profile_evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mismatch_basis": {
+          "type": "string",
+          "enum": [
+            "not_applicable",
+            "different_work",
+            "insufficient_evidence"
+          ]
+        }
+      },
+      "required": [
+        "summary",
+        "fit",
+        "quotes",
+        "profile_evidence_ids",
+        "reason",
+        "mismatch_basis"
+      ],
+      "additionalProperties": false
+    },
+    "ai_role": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "subject",
+            "development_method",
+            "auxiliary",
+            "absent",
+            "unknown"
+          ]
+        },
+        "quotes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "kind",
+        "quotes"
+      ],
+      "additionalProperties": false
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "importance": {
+            "type": "string",
+            "enum": [
+              "mandatory",
+              "preferred"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "confirmed",
+              "unconfirmed",
+              "conflict"
+            ]
+          },
+          "quote": {
+            "type": "string",
+            "minLength": 1
+          },
+          "profile_evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "text",
+          "importance",
+          "status",
+          "quote",
+          "profile_evidence_ids",
+          "reason"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "conditions": {
+      "type": "object",
+      "properties": {
+        "remote": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "confirmed",
+                "unknown",
+                "conflict"
+              ]
+            },
+            "quotes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            },
+            "field_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "vacancy.work_formats"
+                ]
+              },
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "status",
+            "quotes",
+            "reason",
+            "field_refs"
+          ],
+          "additionalProperties": false
+        },
+        "communication": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "confirmed",
+                "unknown",
+                "conflict"
+              ]
+            },
+            "quotes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            },
+            "field_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "vacancy.work_formats"
+                ]
+              },
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "status",
+            "quotes",
+            "reason",
+            "field_refs"
+          ],
+          "additionalProperties": false
+        },
+        "work_from_russia": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "confirmed",
+                "unknown",
+                "conflict"
+              ]
+            },
+            "quotes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            },
+            "field_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "vacancy.work_formats"
+                ]
+              },
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "status",
+            "quotes",
+            "reason",
+            "field_refs"
+          ],
+          "additionalProperties": false
+        },
+        "ai_policy": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "confirmed",
+                "unknown",
+                "conflict"
+              ]
+            },
+            "quotes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            },
+            "field_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "vacancy.work_formats"
+                ]
+              },
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "status",
+            "quotes",
+            "reason",
+            "field_refs"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "remote",
+        "communication",
+        "work_from_russia",
+        "ai_policy"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "contract_version",
+    "vacancy_id",
+    "profile_id",
+    "profile_version",
+    "rules_version",
+    "main_work",
+    "ai_role",
+    "requirements",
+    "conditions"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DES Job Watcher analysis response v3",
+  "description": "Вердикт вычисляет Python. Цитаты — точные фрагменты названия/описания. confirmed требует основания; unconfirmed — не подтверждено, conflict — установленное противоречие. requirements содержит профессиональные/языковые требования, а не зарплату и график. Дополнительные проверки связей и оснований выполняет Python. В v2 conditions содержит field_refs. Единственная разрешённая ссылка vacancy.work_formats применима только к remote. Один REMOTE подтверждает заявленную удалёнку, но не голос или доступность из России. В v3 main_work — близость задач, partial допускает релевантную часть. mismatch_basis=insufficient_evidence не является отказом. Выбор показа выполняет код отдельно от оценки соответствия. Правила v2."
+}
