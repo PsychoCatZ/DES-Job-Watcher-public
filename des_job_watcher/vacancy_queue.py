@@ -30,3 +30,16 @@ class VacancyQueue:
 
     def remaining(self):
         return self.db.execute("SELECT count(*) FROM vacancy_queue WHERE status='pending'").fetchone()[0]
+
+    def dismiss_pending(self, request):
+        """Идемпотентный сброс остатка: ID и аудит сохраняются даже после рестарта."""
+        with self.db:
+            self.db.execute('''CREATE TABLE IF NOT EXISTS queue_refreshes (
+                request INTEGER PRIMARY KEY, dismissed INTEGER NOT NULL,
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)''')
+            old = self.db.execute('SELECT dismissed FROM queue_refreshes WHERE request=?', (request,)).fetchone()
+            if old:
+                return old[0]
+            count = self.db.execute("UPDATE vacancy_queue SET status='dismissed' WHERE status='pending'").rowcount
+            self.db.execute('INSERT INTO queue_refreshes(request, dismissed) VALUES (?, ?)', (request, count))
+        return count

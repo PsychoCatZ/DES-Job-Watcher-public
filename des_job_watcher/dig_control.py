@@ -9,7 +9,9 @@ from des_job_watcher.telegram_delivery import load_binding
 
 START = 'Начать раскопки'
 STOP = 'Перестать рыть'
-KEYBOARD = {'keyboard': [[{'text': START}, {'text': STOP}]],
+REFRESH = 'Обновить поиск'
+ONCE = 'Копнуть один раз'
+KEYBOARD = {'keyboard': [[{'text': ONCE}], [{'text': START}, {'text': STOP}], [{'text': REFRESH}]],
             'resize_keyboard': True, 'is_persistent': True}
 
 
@@ -48,6 +50,10 @@ class DigControl:
             columns = {row[1] for row in db.execute('PRAGMA table_info(dig_control)')}
             if 'generation' not in columns:
                 db.execute('ALTER TABLE dig_control ADD COLUMN generation INTEGER NOT NULL DEFAULT 0')
+            if 'refresh_request' not in columns:
+                db.execute('ALTER TABLE dig_control ADD COLUMN refresh_request INTEGER NOT NULL DEFAULT 0')
+            if 'once_mode' not in columns:
+                db.execute('ALTER TABLE dig_control ADD COLUMN once_mode INTEGER NOT NULL DEFAULT 0')
             db.execute('INSERT OR IGNORE INTO dig_control(bot_id, chat_id) VALUES (?, ?)', self.identity)
 
     def state(self):
@@ -62,11 +68,41 @@ class DigControl:
         owner = self.identity[1]
         command = message.get('text') if (chat.get('type') == 'private'
                   and chat.get('id') == sender.get('id') == owner and not sender.get('is_bot')) else None
-        enabled = {START: 1, STOP: 0}.get(command)
+        enabled = {START: 1, STOP: 0, ONCE: 1}.get(command)
+        refresh = command == REFRESH
         with self.db:
             changed = self.db.execute('''UPDATE dig_control SET
-                generation=generation+CASE WHEN enabled<>? THEN 1 ELSE 0 END,
+                generation=generation+CASE WHEN enabled<>? OR ? THEN 1 ELSE 0 END,
+                refresh_request=CASE WHEN ? THEN ? ELSE refresh_request END,
+                once_mode=CASE WHEN ? THEN CASE WHEN once_mode=0 THEN 1 ELSE once_mode END
+                    WHEN ? THEN 0 WHEN ? AND once_mode=2 THEN 1 ELSE once_mode END,
                 enabled=COALESCE(?, enabled), next_offset=?
                 WHERE bot_id=? AND chat_id=? AND next_offset<=?''',
-                (enabled, enabled, update_id + 1, *self.identity, update_id)).rowcount
-        return bool(changed and enabled is not None)
+                (enabled, refresh, refresh, update_id + 1, command == ONCE,
+                 command in (START, STOP), refresh, enabled, update_id + 1,
+                 *self.identity, update_id)).rowcount
+        return bool(changed and (enabled is not None or refresh))
+
+    def once_mode(self):
+        return self.db.execute('SELECT once_mode FROM dig_control WHERE bot_id=? AND chat_id=?',
+                               self.identity).fetchone()[0]
+
+    def mark_once_started(self):
+        with self.db:
+            self.db.execute('UPDATE dig_control SET once_mode=2 WHERE bot_id=? AND chat_id=? AND once_mode=1',
+                            self.identity)
+
+    def finish_once(self, generation):
+        with self.db:
+            return bool(self.db.execute('''UPDATE dig_control SET enabled=0, once_mode=0,
+                generation=generation+1 WHERE bot_id=? AND chat_id=? AND generation=? AND once_mode<>0''',
+                (*self.identity, generation)).rowcount)
+
+    def refresh_request(self):
+        return self.db.execute('SELECT refresh_request FROM dig_control WHERE bot_id=? AND chat_id=?',
+                               self.identity).fetchone()[0]
+
+    def finish_refresh(self, request):
+        with self.db:
+            self.db.execute('''UPDATE dig_control SET refresh_request=0
+                WHERE bot_id=? AND chat_id=? AND refresh_request=?''', (*self.identity, request))
