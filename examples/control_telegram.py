@@ -83,10 +83,8 @@ def main():
                 control.finish_once(control.state()[2])
                 telegram.send(chat_id, 'Разовый проход был прерван перезапуском службы. '
                               'Раскопки выключены, автоматического повтора нет.', reply_markup=KEYBOARD)
-            status = 'включены' if control.state()[0] else 'выключены'
             mode = f'Интервал {args.interval_minutes} мин.' if args.schedule else 'Проверка кнопок без автопоиска.'
-            telegram.send(chat_id, f'Раскопки {status}. {mode}', reply_markup=KEYBOARD)
-            print('Кнопки отправлены. Открой бота. Для выхода нажми Ctrl+C.', flush=True)
+            print('Контроллер готов. Состояние сохранено; старт без уведомления. Для выхода нажми Ctrl+C.', flush=True)
             next_run = 0
             while True:
                 updates = telegram.call('getUpdates', {'offset': control.state()[1],

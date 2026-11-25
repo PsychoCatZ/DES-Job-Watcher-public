@@ -32,6 +32,30 @@ class FakeHH:
 
 
 class QueueRunTests(unittest.TestCase):
+    def test_provider_401_stops_after_first_attempt_and_preserves_rest(self):
+        args = SimpleNamespace(analysis_limit=10, page_size=50, max_pages=3)
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            with History(root / 'watcher.sqlite3') as history:
+                queue = VacancyQueue(history.db)
+                for i in range(12):
+                    queue.add({'id': str(i)}, 'ai_data')
+                with patch.multiple(run_queue, HHClient=lambda *_: FakeHH(),
+                                    load_search_plan=lambda: {'profiles': {p: {'queries': [{'text': 'test'}]} for p in run_queue.PROFILES}},
+                                    requests_allowed=lambda: True, add_workplace_evidence=lambda x: x,
+                                    build_input=lambda profile, snap: {'profile': {'profile_id': profile},
+                                        'vacancy': {'id': snap['detail']['id']}},
+                                    prepare_body=lambda _: ({}, {'request_sha256': 'mock'})), \
+                        patch.object(run_queue, 'analyze_once', return_value={
+                            'status': 'analysis_failed', 'http_status': 401}) as analyze, \
+                        patch('examples.run_queue.time.sleep'), patch.dict('os.environ', {
+                            'HH_USER_AGENT': 'fake', 'HH_ACCESS_TOKEN': 'fake', 'OPENAI_API_KEY': 'fake'}):
+                    with self.assertRaisesRegex(ValueError, 'HTTP 401'):
+                        run_queue.collect_and_analyze(args, history, queue, root,
+                                                      dict.fromkeys(run_queue.LABELS, 0), [])
+                self.assertEqual(analyze.call_count, 1)
+                self.assertEqual(queue.remaining(), 11)
+
     def test_pagination_budget_and_restart_continue_from_saved_queue(self):
         args = SimpleNamespace(analysis_limit=10, page_size=50, max_pages=3)
         plan = {'profiles': {'support': {'queries': []}, 'ai_data': {'queries': [{'text': 'разметка'}]}}}

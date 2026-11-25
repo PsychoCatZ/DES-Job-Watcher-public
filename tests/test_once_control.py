@@ -13,6 +13,23 @@ from tests.test_refresh_search import update
 
 
 class OnceTests(unittest.TestCase):
+    def test_idle_controller_start_does_not_send_status_notification(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / 'data').mkdir()
+            telegram = Mock()
+            telegram.call.side_effect = [[], [], KeyboardInterrupt()]
+            with patch.object(control_telegram, 'ROOT', root), \
+                    patch.object(control_telegram, 'load_binding', return_value=42), \
+                    patch.object(control_telegram, 'TelegramClient', return_value=telegram), \
+                    patch.object(control_telegram.subprocess, 'Popen') as popen, \
+                    patch('sys.argv', ['control', '--live', '--schedule']), \
+                    patch.dict('os.environ', dict(TELEGRAM_BOT_TOKEN='fake', HH_ACCESS_TOKEN='fake',
+                                                 HH_USER_AGENT='fake', OPENAI_API_KEY='fake')):
+                self.assertEqual(control_telegram.main(), 0)
+            telegram.send.assert_not_called()
+            popen.assert_not_called()
+
     def test_controller_runs_one_child_then_waits_with_disabled_state(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
