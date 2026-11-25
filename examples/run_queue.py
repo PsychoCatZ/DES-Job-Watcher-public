@@ -175,6 +175,10 @@ def collect_and_analyze(args, history, queue, batch, stats, audit):
             result_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
             history.finish_attempt(scope, result['status'])
             queue.finish(vacancy_id, result['status'])
+            if result.get('http_status') is not None and result['http_status'] != 200:
+                raise ValueError(f"OpenAI: HTTP {result['http_status']}. Проход остановлен; следующие вакансии не отправлялись.")
+            if result.get('http_status') is None and result.get('status') == 'analysis_failed':
+                raise ValueError('OpenAI: запрос не завершён. Проход остановлен без автоматического повтора.')
             if result['status'] == 'completed':
                 stats['analyzed'] += 1
             else:
@@ -235,6 +239,11 @@ def main():
             try:
                 with httpx.Client(timeout=25, follow_redirects=False) as client:
                     telegram = TelegramClient(os.environ['TELEGRAM_BOT_TOKEN'], client)
+                    if error:
+                        notice = ('OpenAI отклонил авторизацию (HTTP 401). Проверь ключ Watcher.'
+                                  if 'OpenAI: HTTP 401' in error else
+                                  'Проход остановлен из-за ошибки. Подробности сохранены в отчёте; результат может быть неполным.')
+                        telegram.send(chat_id, notice, reply_markup=KEYBOARD)
                     for number, (_, message) in enumerate(recommendations, 1):
                         if number > 1:
                             time.sleep(1.1)
